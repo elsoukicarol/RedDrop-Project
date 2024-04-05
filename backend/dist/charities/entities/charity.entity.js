@@ -19,18 +19,22 @@ __decorate([
     __metadata("design:type", Number)
 ], Charity.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, name: 'charity_name' }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, name: "charity_name" }),
     __metadata("design:type", String)
 ], Charity.prototype, "charity_name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, name: 'description' }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, name: "description" }),
     __metadata("design:type", String)
 ], Charity.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, name: 'profile_picture' }),
+    (0, typeorm_1.Column)({ type: 'int', default: 0, name: "donations" }),
+    __metadata("design:type", Number)
+], Charity.prototype, "donations", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, name: "profile_picture" }),
     __metadata("design:type", String)
 ], Charity.prototype, "picture", void 0);
 exports.Charity = Charity = __decorate([
-    (0, typeorm_1.Entity)('charities')
+    (0, typeorm_1.Entity)("charities")
 ], Charity);
 //# sourceMappingURL=charity.entity.js.map

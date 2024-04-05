@@ -8,6 +8,8 @@ import { UserModule } from './user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { PostModule } from './post/post.module';
 import { CharitiesModule } from './charities/charities.module';
+import { FaqModule } from './faq/faq.module';
+import { FinancialTransactionsModule } from './financial-transactions/financial-transactions.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { CharitiesModule } from './charities/charities.module';
     UserModule,
     PostModule,
     CharitiesModule,
+    FaqModule,
+    FinancialTransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -16,6 +16,8 @@ const user_module_1 = require("./user/user.module");
 const passport_1 = require("@nestjs/passport");
 const post_module_1 = require("./post/post.module");
 const charities_module_1 = require("./charities/charities.module");
+const faq_module_1 = require("./faq/faq.module");
+const financial_transactions_module_1 = require("./financial-transactions/financial-transactions.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -39,6 +41,8 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             post_module_1.PostModule,
             charities_module_1.CharitiesModule,
+            faq_module_1.FaqModule,
+            financial_transactions_module_1.FinancialTransactionsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
