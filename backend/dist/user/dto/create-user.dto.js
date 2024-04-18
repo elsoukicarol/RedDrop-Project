@@ -24,31 +24,10 @@ __decorate([
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsAlpha)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "first_name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "last_name", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "blood_type", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "location", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsEnum)(['Female', 'Male']),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "gender", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsEnum)(['Donor', 'Receiver', 'Admin']),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "role", void 0);
 //# sourceMappingURL=create-user.dto.js.map

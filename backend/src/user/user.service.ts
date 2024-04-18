@@ -2,27 +2,27 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-} from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { Not, Repository } from 'typeorm';
-import * as nodemailer from 'nodemailer';
-import * as bcrypt from 'bcrypt';
-import * as randomstring from 'randomstring';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-import { JwtService } from '@nestjs/jwt';
+} from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { Not, Repository } from "typeorm";
+import * as nodemailer from "nodemailer";
+import * as bcrypt from "bcrypt";
+import * as randomstring from "randomstring";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "./entities/user.entity";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async sendOtpEmail(email: string, otp: string) {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
+      host: "smtp.gmail.com",
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
@@ -34,7 +34,7 @@ export class UserService {
     const mailOptions = {
       from: '"Red Drop" <elsoukicarol@hotmail.com>',
       to: email,
-      subject: 'Your OTP for Account Activation',
+      subject: "Your OTP for Account Activation",
       text: `🎉 Welcome to Red Drop! 🎉\nWe're thrilled to have you join our community! Your journey towards an exciting experience has just begun. 🚀\nTo get started, please remember to activate your account. Simply tap the activation link at the top of your welcome email. It's your key to unlocking all the amazing features and opportunities waiting for you.\nShould you have any questions or need assistance, our team is here to help. Welcome aboard, and thank you for joining Red Drop!\n\nYour OTP for account activation is: ${otp}\n\nPlease use this OTP to activate your account.`,
     };
 
@@ -42,7 +42,8 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const otp = randomstring.generate({ length: 5, charset: 'numeric' });
+    console.log("here");
+    const otp = randomstring.generate({ length: 5, charset: "numeric" });
 
     // Create user with OTP (without saving yet)
     const userExists = await this.usersRepository.findOneBy({
@@ -50,7 +51,7 @@ export class UserService {
     });
     if (userExists) {
       console.log(userExists);
-      return null;
+      throw new UnauthorizedException("User does not exist.");
     }
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
@@ -67,11 +68,14 @@ export class UserService {
     // Send OTP email
     await this.sendOtpEmail(createUserDto.email, otp);
 
-    return user;
+    const payload = { sub: user.id };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
-
-  async activateUser(email: string, otp: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({ where: { email } });
+  /// checkear
+  async activateUser(id: number, otp: string): Promise<boolean> {
+    const user = await this.usersRepository.findOne({ where: { id: id } });
 
     if (!user || user.otp !== otp) {
       // Incorrect OTP or user not found
@@ -87,22 +91,33 @@ export class UserService {
     return true;
   }
 
+  decodeToken(token: string) {
+    try {
+      const decoded = this.jwtService.decode(token); // Decode without verifying the signature
+      return decoded;
+    } catch (error) {
+      console.error("Failed to decode token", error);
+      return null;
+    }
+  }
+
   async login(
     email: string,
-    password: string,
+    password: string
   ): Promise<{ access_token: string } | null> {
+    console.log("aqui");
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {
-      throw new UnauthorizedException('User does not exist.');
+      throw new UnauthorizedException("User does not exist.");
     }
     if (!user.isActivated) {
       throw new UnauthorizedException(
-        'Account is inactive. Please activate your account.',
+        "Account is inactive. Please activate your account."
       );
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new UnauthorizedException('Incorrect password.');
+      throw new UnauthorizedException("Incorrect password.");
     }
     const payload = { sub: user.id };
     return {
@@ -112,15 +127,15 @@ export class UserService {
   async findAllDonors(requestingUserId: number): Promise<Partial<User>[]> {
     const donors = await this.usersRepository.find({
       where: {
-        role: 'Donor',
+        role: "Donor",
         isActivated: true,
         id: Not(requestingUserId),
       },
-      select: ['first_name', 'last_name', 'blood_type', 'location'],
+      select: ["first_name", "last_name", "blood_type", "location"],
     });
 
     if (!donors.length) {
-      throw new NotFoundException({ message: 'No donors found.' });
+      throw new NotFoundException({ message: "No donors found." });
     }
 
     return donors;

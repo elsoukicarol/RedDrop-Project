@@ -19,35 +19,35 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, unique: true }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255 }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "first_name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "last_name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 3, nullable: true }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 3, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "blood_type", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "location", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'int', default: 0 }),
+    (0, typeorm_1.Column)({ type: "int", default: 0, nullable: true }),
     __metadata("design:type", Number)
 ], User.prototype, "points", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', default: 15 }),
+    (0, typeorm_1.Column)({ type: "varchar", default: 15, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
@@ -59,6 +59,6 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "isActivated", void 0);
 exports.User = User = __decorate([
-    (0, typeorm_1.Entity)({ name: 'users' })
+    (0, typeorm_1.Entity)({ name: "users" })
 ], User);
 //# sourceMappingURL=user.entity.js.map

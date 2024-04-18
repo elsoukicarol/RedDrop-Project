@@ -22,37 +22,30 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async createUser(createUserDto) {
+    async createUser(createUserDto, response) {
         try {
             const user = await this.userService.create(createUserDto);
             if (user) {
-                return {
-                    message: 'User created successfully, please check your email for the OTP to activate your account.',
-                    user_id: user.id,
-                };
+                response.status(200).json(user);
             }
             else {
-                return {
-                    message: 'User already exists',
-                };
+                response.status(300).json({
+                    message: "User already exists",
+                });
             }
         }
         catch (error) {
             console.log(error);
-            throw new common_1.BadRequestException('Failed to create user.');
+            response.status(400).json({ message: "Failed to create user." });
         }
     }
     async activateUser(body) {
-        try {
-            const success = await this.userService.activateUser(body.email, body.otp);
-            if (!success) {
-                throw new common_1.BadRequestException('Invalid OTP or email.');
-            }
-            return { message: 'Account activated successfully.' };
+        const success = await this.userService.activateUser(body.id, body.otp);
+        console.log(success);
+        if (!success) {
+            throw new common_1.BadRequestException("Invalid OTP or user ID.");
         }
-        catch (error) {
-            return { message: error.message };
-        }
+        return true;
     }
     async login(body) {
         try {
@@ -65,7 +58,7 @@ let UserController = class UserController {
             if (error instanceof common_1.UnauthorizedException) {
                 throw new common_1.UnauthorizedException(error.message);
             }
-            throw new common_1.BadRequestException('An error occurred during login.');
+            throw new common_1.BadRequestException("An error occurred during login.");
         }
     }
     async findAllDonors(request) {
@@ -95,29 +88,30 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.Post)('signup'),
+    (0, common_1.Post)("signup"),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
 __decorate([
-    (0, common_1.Post)('activate'),
+    (0, common_1.Post)("activate"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "activateUser", null);
 __decorate([
-    (0, common_1.Post)('login'),
+    (0, common_1.Post)("login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "login", null);
 __decorate([
-    (0, common_1.Get)('/donors'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Get)("/donors"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -137,29 +131,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "remove", null);
 exports.UserController = UserController = __decorate([
-    (0, common_1.Controller)('user'),
+    (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

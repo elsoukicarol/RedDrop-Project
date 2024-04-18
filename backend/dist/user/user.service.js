@@ -28,7 +28,7 @@ let UserService = class UserService {
     }
     async sendOtpEmail(email, otp) {
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+            host: "smtp.gmail.com",
             port: 587,
             secure: false,
             auth: {
@@ -39,19 +39,20 @@ let UserService = class UserService {
         const mailOptions = {
             from: '"Red Drop" <elsoukicarol@hotmail.com>',
             to: email,
-            subject: 'Your OTP for Account Activation',
+            subject: "Your OTP for Account Activation",
             text: `🎉 Welcome to Red Drop! 🎉\nWe're thrilled to have you join our community! Your journey towards an exciting experience has just begun. 🚀\nTo get started, please remember to activate your account. Simply tap the activation link at the top of your welcome email. It's your key to unlocking all the amazing features and opportunities waiting for you.\nShould you have any questions or need assistance, our team is here to help. Welcome aboard, and thank you for joining Red Drop!\n\nYour OTP for account activation is: ${otp}\n\nPlease use this OTP to activate your account.`,
         };
         await transporter.sendMail(mailOptions);
     }
     async create(createUserDto) {
-        const otp = randomstring.generate({ length: 5, charset: 'numeric' });
+        console.log("here");
+        const otp = randomstring.generate({ length: 5, charset: "numeric" });
         const userExists = await this.usersRepository.findOneBy({
             email: createUserDto.email,
         });
         if (userExists) {
             console.log(userExists);
-            return null;
+            throw new common_1.UnauthorizedException("User does not exist.");
         }
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
         const user = this.usersRepository.create({
@@ -62,10 +63,13 @@ let UserService = class UserService {
         });
         await this.usersRepository.save(user);
         await this.sendOtpEmail(createUserDto.email, otp);
-        return user;
+        const payload = { sub: user.id };
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+        };
     }
-    async activateUser(email, otp) {
-        const user = await this.usersRepository.findOne({ where: { email } });
+    async activateUser(id, otp) {
+        const user = await this.usersRepository.findOne({ where: { id: id } });
         if (!user || user.otp !== otp) {
             return false;
         }
@@ -75,17 +79,28 @@ let UserService = class UserService {
         await this.usersRepository.save(user);
         return true;
     }
+    decodeToken(token) {
+        try {
+            const decoded = this.jwtService.decode(token);
+            return decoded;
+        }
+        catch (error) {
+            console.error("Failed to decode token", error);
+            return null;
+        }
+    }
     async login(email, password) {
+        console.log("aqui");
         const user = await this.usersRepository.findOne({ where: { email } });
         if (!user) {
-            throw new common_1.UnauthorizedException('User does not exist.');
+            throw new common_1.UnauthorizedException("User does not exist.");
         }
         if (!user.isActivated) {
-            throw new common_1.UnauthorizedException('Account is inactive. Please activate your account.');
+            throw new common_1.UnauthorizedException("Account is inactive. Please activate your account.");
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new common_1.UnauthorizedException('Incorrect password.');
+            throw new common_1.UnauthorizedException("Incorrect password.");
         }
         const payload = { sub: user.id };
         return {
@@ -95,14 +110,14 @@ let UserService = class UserService {
     async findAllDonors(requestingUserId) {
         const donors = await this.usersRepository.find({
             where: {
-                role: 'Donor',
+                role: "Donor",
                 isActivated: true,
                 id: (0, typeorm_1.Not)(requestingUserId),
             },
-            select: ['first_name', 'last_name', 'blood_type', 'location'],
+            select: ["first_name", "last_name", "blood_type", "location"],
         });
         if (!donors.length) {
-            throw new common_1.NotFoundException({ message: 'No donors found.' });
+            throw new common_1.NotFoundException({ message: "No donors found." });
         }
         return donors;
     }

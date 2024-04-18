@@ -10,56 +10,54 @@ import {
   UnauthorizedException,
   UseGuards,
   Req,
-} from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { User } from './entities/user.entity';
-import RequestWithUser from 'src/Request/requestwithuser.interface';
+  Res,
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { User } from "./entities/user.entity";
+import RequestWithUser from "src/Request/requestwithuser.interface";
+import { Response } from "express";
 
-@Controller('user')
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('signup')
-  async createUser(@Body() createUserDto: CreateUserDto) {
+  @Post("signup")
+  async createUser(
+    @Body() createUserDto: CreateUserDto,
+    @Res() response: Response
+  ) {
     try {
       const user = await this.userService.create(createUserDto);
       if (user) {
-        return {
-          message:
-            'User created successfully, please check your email for the OTP to activate your account.',
-          user_id: user.id,
-        };
+        response.status(200).json(user);
       } else {
-        return {
-          message: 'User already exists',
-        };
+        response.status(300).json({
+          message: "User already exists",
+        });
       }
     } catch (error) {
       console.log(error);
-      throw new BadRequestException('Failed to create user.');
+      response.status(400).json({ message: "Failed to create user." });
     }
   }
 
-  @Post('activate')
-  async activateUser(@Body() body: { email: string; otp: string }) {
-    try {
-      const success = await this.userService.activateUser(body.email, body.otp);
-      if (!success) {
-        throw new BadRequestException('Invalid OTP or email.');
-      }
-      return { message: 'Account activated successfully.' };
-    } catch (error) {
-      return { message: error.message };
+  @Post("activate")
+  async activateUser(@Body() body: { id: number; otp: string }) {
+    const success = await this.userService.activateUser(body.id, body.otp);
+    console.log(success);
+    if (!success) {
+      throw new BadRequestException("Invalid OTP or user ID.");
     }
+    return true;
   }
 
   // @AuthGuard('jwt')
-  @Post('login')
+  @Post("login")
   async login(
-    @Body() body: { email: string; password: string },
+    @Body() body: { email: string; password: string }
     /// passthrough sends cookie to the frontend
   ) {
     try {
@@ -72,14 +70,14 @@ export class UserController {
       if (error instanceof UnauthorizedException) {
         throw new UnauthorizedException(error.message);
       }
-      throw new BadRequestException('An error occurred during login.');
+      throw new BadRequestException("An error occurred during login.");
     }
   }
 
-  @Get('/donors')
-  @UseGuards(AuthGuard('jwt')) // Optional: Use this if you want the endpoint to be protected
+  @Get("/donors")
+  @UseGuards(AuthGuard("jwt")) // Optional: Use this if you want the endpoint to be protected
   async findAllDonors(
-    @Req() request: RequestWithUser,
+    @Req() request: RequestWithUser
   ): Promise<Partial<User>[]> {
     try {
       return await this.userService.findAllDonors(request.user.userId);
@@ -98,18 +96,18 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.userService.remove(+id);
   }
 }

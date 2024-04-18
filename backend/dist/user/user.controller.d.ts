@@ -1,24 +1,17 @@
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import RequestWithUser from 'src/Request/requestwithuser.interface';
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { User } from "./entities/user.entity";
+import RequestWithUser from "src/Request/requestwithuser.interface";
+import { Response } from "express";
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
-    createUser(createUserDto: CreateUserDto): Promise<{
-        message: string;
-        user_id: number;
-    } | {
-        message: string;
-        user_id?: undefined;
-    }>;
+    createUser(createUserDto: CreateUserDto, response: Response): Promise<void>;
     activateUser(body: {
-        email: string;
+        id: number;
         otp: string;
-    }): Promise<{
-        message: any;
-    }>;
+    }): Promise<boolean>;
     login(body: {
         email: string;
         password: string;
@@ -28,7 +21,9 @@ export declare class UserController {
         };
     }>;
     findAllDonors(request: RequestWithUser): Promise<Partial<User>[]>;
-    create(createUserDto: CreateUserDto): Promise<User>;
+    create(createUserDto: CreateUserDto): Promise<{
+        access_token: string;
+    }>;
     findAll(): string;
     findOne(id: string): string;
     update(id: string, updateUserDto: UpdateUserDto): string;

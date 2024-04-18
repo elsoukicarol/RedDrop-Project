@@ -1,32 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 // import { ChatMessage } from '../../chat/entities/chat.entity';
-@Entity({ name: 'users' })
+@Entity({ name: "users" })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: "varchar", length: 255, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: "varchar", length: 255 })
   password: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true })
   first_name: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true })
   last_name: string;
 
-  @Column({ type: 'varchar', length: 3, nullable: true })
+  @Column({ type: "varchar", length: 3, nullable: true })
   blood_type: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true })
   location: string;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: "int", default: 0, nullable: true })
   points: number;
 
-  @Column({ type: 'varchar', default: 15 })
+  @Column({ type: "varchar", default: 15, nullable: true })
   role: string;
 
   @Column({ nullable: true })
