@@ -80,7 +80,6 @@ __decorate([
 ], CharitiesController.prototype, "deleteCharity", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -97,7 +96,6 @@ __decorate([
 ], CharitiesController.prototype, "findCharity", null);
 __decorate([
     (0, common_1.Get)('/getall'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

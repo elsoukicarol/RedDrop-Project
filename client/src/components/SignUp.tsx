@@ -11,7 +11,6 @@ import Link from "@mui/joy/Link";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from 'axios';
-import { MenuItem, Select } from "@mui/material";
 
 export default function SignUp() {
   let navigate = useNavigate();
@@ -20,9 +19,7 @@ export default function SignUp() {
     first_name: '',
     last_name: '',
     email: '',
-    // dob: '',
     password: '',
-    // role: ''
   });
 
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -101,15 +98,15 @@ export default function SignUp() {
           >
             <Typography level="h4" component="h1">
               Welcome to RedDrop!
-              <hr style={{ width: '150px', color: 'red', backgroundColor: 'red' }}></hr>
+              <hr style={{ width: '150px'}}></hr>
             </Typography>
           </div>
           <Typography
             level="body-sm"
             sx={{
-              textAlign: "center", // Centers the text horizontally
+              textAlign: "center", 
               display: "block",
-              color:"#424242" // Ensures the Typography component is treated as a block-level element
+              color:"#424242" 
             }}
           >
             We are a vibrant community dedicated to saving lives through blood
@@ -153,10 +150,6 @@ export default function SignUp() {
                 onChange={handleChange} value={formData.email}
               />
             </FormControl>
-            {/* <FormControl fullWidth>
-              <FormLabel>Date of Birth</FormLabel>
-              <Input name="dob" type="Date" onChange={handleChange} value={formData.dob}/>
-            </FormControl> */}
           </div>
 
           <div
@@ -182,29 +175,6 @@ export default function SignUp() {
             </FormControl>
           </div>
 
-          {/* <div
-            style={{
-              display: "flex",
-              gap: "20px",
-              alignItems: "center", // Centering content horizontally
-              justifyContent: "center",
-            }}
-          > */}
-            {/* <FormControl fullWidth>
-              <FormLabel>Role</FormLabel>
-              <Input onChange={handleChange} value={formData.role} name="role" type="select" placeholder="role" />
-            </FormControl>
-            <FormControl fullWidth>
-              <FormLabel>Confirm Password</FormLabel>
-              <Input
-              onChange={handleChange} value={formData.confirmPassword}
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-              />
-            </FormControl>
-          </div> */}
-
           <Button
           type="submit"
             sx={{
@@ -222,7 +192,7 @@ export default function SignUp() {
           </Button>
 
           <Typography
-            endDecorator={<Link href="/sign-up">Log in</Link>}
+            endDecorator={<Link href="/login">Log in</Link>}
             fontSize="sm"
             sx={{ alignSelf: "center" }}
             >
@@ -232,8 +202,8 @@ export default function SignUp() {
             </form>
         <Sheet
           sx={{
-              borderRadius: "0 50% 0% 0%",
-              width: 550,
+              borderRadius: "3% 0% 0% 3%",
+              width: 500,
               height: 730,
               ml: "auto",
               display: "flex",
@@ -242,30 +212,50 @@ export default function SignUp() {
               justifyContent: "center", 
               gap: 2,
               boxShadow: "md",
-              background: "linear-gradient(180deg, #FF5F6D 0%, #FFC371 100%)", 
+              backgroundImage:"url(/img/donatebloodvertical.webp)",
               color: "white",
               padding: 3, 
+              backgroundSize: "cover", // Ensure the background covers the available space without being repeated
+              backgroundPosition: "center center"
             
           }}
         >
-          <Typography
-            level="h4"
-            component="h1"
-            sx={{ textAlign: "center", mb: 2 }}
-          >
-            Welcome!
-          </Typography>
-          <Typography level="body-sm" sx={{ textAlign: "center", mb: 4 }}>
-            Sign in to continue.
-          </Typography>
+<Typography
+  level="h4"
+  component="h1"
+  sx={{
+    textAlign: "center",
+    mb: 50, // reduced margin bottom
+    color: "black", // a vibrant but not too bright shade of red
+    fontWeight: 'bold', // make header bold
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // a clean and readable font
+    fontSize: '2.5rem' // larger font size for emphasis
+  }}
+>
+  Welcome to Our Community of Heroes!
+</Typography>
+<Typography
+  sx={{
+    textAlign: "center",
+    mb: 0,
+    color: "black", // a darker shade for better readability
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // maintain consistency with the header
+    fontSize: '1rem', // appropriate body text size
+    lineHeight: 1.5, // improve line spacing for readability
+  }}
+>
+  Thank you for your interest in saving lives with us!<br></br>
+  Ready to make a difference?<br></br> Let's get started!
+</Typography>
           <Button
             onClick={() => navigate("/login")}
             sx={{
-              mb: 2,
-              bgcolor: "secondary.main", // Adjust this value or use a specific color to match your design
-              color: "white", // Ensuring text is white for contrast
+              mb: -5,
+              bgcolor: "#E53935", // Adjust this value or use a specific color to match your design
+              color: "white",
+              border:"#E53935",// Ensuring text is white for contrast
               "&:hover": {
-                bgcolor: "secondary.dark", // Darker shade on hover, adjust accordingly
+                bgcolor: "darkred", // Darker shade on hover, adjust accordingly
               },
             }}
           >

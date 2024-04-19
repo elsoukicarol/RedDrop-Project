@@ -7,18 +7,18 @@ interface DonationCenter {
     name: string;
     description: string;
     image: string;
-    donationAmount: string;
+    donationAmount?: string;
   }
   
   const donationCenters: DonationCenter[] = [
-    { name: 'Hope Hospital', description: 'Emergency center', image: 'url-to-hospital-image', donationAmount: 'from $50/donation' },
-    { name: 'Life Clinic', description: 'Urgent care', image: 'url-to-clinic-image', donationAmount: 'from $70/donation' },
-    // Add other centers here...
+    { name: 'Global Blood Fund', description: 'Emergency center', image: '/img/charities/globalbloodfund.png'},
+    { name: 'Donner Sang Compter', description: 'Urgent care', image: '/img/charities/DSC.png' },
+    { name: 'Association for the Advancement of Blood & Biotherapies', description: 'Urgent care', image: '/img/aabb.jpg' },
   ];
 export default function HeroesSection() {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom sx={{ color: primaryColor }}>
+      <Typography variant="h5" gutterBottom >
         Heroes of donation
       </Typography>
       <Grid container spacing={2}>
@@ -31,7 +31,7 @@ export default function HeroesSection() {
                 image={center.image}
                 alt={center.name}
               />
-              <CardContent sx={{ bgcolor: primaryColor, color: secondaryColor }}>
+              <CardContent sx={{ backgroundColor:"#f9f9f9", color: "black" }}>
                 <Typography variant="subtitle1" component="h2">
                   {center.name}
                 </Typography>
@@ -46,11 +46,6 @@ export default function HeroesSection() {
           </Grid>
         ))}
       </Grid>
-      <Box textAlign="center" mt={4}>
-        <Button variant="contained" color="primary" size="large" sx={{ bgcolor: primaryColor }}>
-          Join now
-        </Button>
-      </Box>
     </Container>
     );
   };

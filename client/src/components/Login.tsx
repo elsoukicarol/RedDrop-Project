@@ -2,7 +2,6 @@ import * as React from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
-import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
@@ -10,7 +9,7 @@ import Link from "@mui/joy/Link";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-
+import FormControl from '@mui/material/FormControl';
 export default function Login() {
   let navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -54,95 +53,178 @@ export default function Login() {
     <CssVarsProvider>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
       <Sheet
-        sx={{
-          borderRadius: "0 50% 0% 0%",
-          width: 500,
-          height: 730,
-          mr: "auto", // Centering horizontally
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center", // Centering content horizontally
-          justifyContent: "center", // Centering content vertically
-          gap: 2,
-          boxShadow: "md",
-          // Adjusting the gradient to be vertical with bright red colors
-          background: "linear-gradient(180deg, #FF5F6D 0%, #FFC371 100%)", // A vertical, vibrant red gradient background
-          color: "white", // Adjust text color to contrast with the background
-          padding: 3, // Add some padding around the content
-        }}
-      >
-        <Typography
-          level="h4"
-          component="h1"
-          sx={{ textAlign: "center", mb: 2 }}
-        >
-          Welcome!
-        </Typography>
-        <Typography level="body-sm" sx={{ textAlign: "center", mb: 4 }}>
-          Sign in to continue.
-        </Typography>
-        {/* Buttons for Log In and Sign Up */}
-        <Button
-          variant="outlined"
-          onClick={() => navigate("/signup")}
           sx={{
-            borderColor: "white",
-            color: "white",
-            "&:hover": {
-              borderColor: "secondary.main", // Adjust hover color to match your theme
-              color: "secondary.main",
-            },
+              borderRadius: "0% 3% 3% 0%",
+              width: 500,
+              height: 730,
+              mr: "auto",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center", 
+              justifyContent: "center", 
+              // gap: 2,
+              boxShadow: "md",
+              backgroundImage:"url(/img/donatebloodvertical.webp)",
+              color: "white",
+              padding: 3, 
+              backgroundSize: "cover", 
+              backgroundPosition: "center center"
+            
           }}
         >
-          Sign Up
-        </Button>
-      </Sheet>
-      <form onSubmit={handleSubmit}>
-      <Sheet
-        sx={{
-          width: 300,
-          ml: "auto", // margin left & right
-          my: 4, // margin top & bottom
-          py: 3, // padding top & bottom
-          px: 2, // padding left & right
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-          borderRadius: "sm",
-          boxShadow: "md",
-        }}
-      >
-        <div>
-          <Typography level="h4" component="h1">
-            Welcome!
-          </Typography>
-          <Typography level="body-sm">Sign in to continue.</Typography>
-        </div>
-        <FormControl>
-          <FormLabel>Email</FormLabel>
-          <Input
-            // html input attribute
-            onChange={handleChange} value={formData.email}
-            name="email"
-            type="email"
-            placeholder="johndoe@email.com"
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Password</FormLabel>
-          <Input name="password" type="password" placeholder="password" onChange={handleChange} value={formData.password}/>
-        </FormControl>
+<Typography
+  level="h4"
+  component="h1"
+  sx={{
+    textAlign: "center",
+    mb: 65, 
+    color: "black",
+    fontWeight: 'bold',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // a clean and readable font
+    fontSize: '2.5rem' 
+  }}
+>
+  Welcome Back Hero!
+</Typography>
+<Typography
+  sx={{
+    textAlign: "center",
+    color: "black",
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // maintain consistency with the header
+    fontSize: '1rem',
+    lineHeight: 1.5, 
+  }}
+>
 
-        <Button sx={{ mt: 1 /* margin top */ }} type="submit">Log in</Button>
-        <Typography
-          endDecorator={<Link href="/sign-up">Sign up</Link>}
-          fontSize="sm"
-          sx={{ alignSelf: "center" }}
+Ready to make a difference? <br></br>
+Sign up now
+</Typography>
+          <Button
+            onClick={() => navigate("/signup")}
+            sx={{
+              mb: -15,
+              my: 1,
+              bgcolor: "#E53935", 
+              color: "white",
+              border:"#E53935",
+              "&:hover": {
+                bgcolor: "darkred", 
+              },
+            }}
+          >
+            Sign Up
+
+        </Button>
+        </Sheet>
+        <form onSubmit={handleSubmit}>
+        <Sheet
+          sx={{
+            width: 500,
+            mx: 15,
+            my: 15,
+            py: 3, 
+            px: 2, 
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            borderRadius: "sm",
+            boxShadow: "md",
+          }}
         >
-          Don't have an account?
-        </Typography>
-      </Sheet>
-      </form>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography level="h4" component="h1">
+              Sing in into RedDrop!
+              <hr style={{ width: '150px'}}></hr>
+            </Typography>
+          </div>
+          <Typography
+            level="body-sm"
+            sx={{
+              textAlign: "center", 
+              display: "block",
+              color:"#424242" 
+            }}
+          >
+             We've Missed You!<br></br>
+             Ready to continue making a difference? <br></br>Sign in to your account and let's keep saving lives together!
+          </Typography>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+          </div>
+
+          {/* Second Row: Email & Password */}
+          <div
+            style={{
+              display: "flex",
+              gap: "60px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FormControl fullWidth>
+              <FormLabel>Email</FormLabel>
+              <Input
+                name="email"
+                type="email"
+                placeholder="elsoukicarol@email.com"
+                onChange={handleChange} value={formData.email}
+              />
+            </FormControl>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              alignItems: "center", // Centering content horizontally
+              justifyContent: "center",
+            }}
+          >
+            <FormControl fullWidth>
+              <FormLabel>Password</FormLabel>
+              <Input onChange={handleChange} value={formData.password} name="password" type="password" placeholder="password" />
+            </FormControl>
+            
+          </div>
+
+          <Button
+          type="submit"
+            sx={{
+              mt: 1,
+              width: 150,
+              mx: "auto",
+              bgcolor: "#E53935", // Background color for the button
+              color: "white", // Text color for the button
+              "&:hover": {
+                bgcolor: "darkred", // Background color for the button on hover
+              },
+            }}
+          >
+            Login
+          </Button>
+
+          <Typography
+            endDecorator={<Link href="/signup">Sign Up</Link>}
+            fontSize="sm"
+            sx={{ alignSelf: "center" }}
+            >
+            Don't have an account?
+          </Typography>
+        </Sheet>
+            </form>
       </div>
     </CssVarsProvider>
   );

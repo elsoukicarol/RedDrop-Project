@@ -34,7 +34,7 @@ export default function NavigationBar() {
               fontWeight: "bold",
             }}
           >
-            Blood Drop
+            RedDrop
           </Typography>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
@@ -70,7 +70,7 @@ export default function NavigationBar() {
               sx={{
                 color: "black",
                 textTransform: "none",
-                borderColor: "black",
+                borderColor: "#E53935",
               }}
               variant="outlined"
             >
@@ -80,7 +80,7 @@ export default function NavigationBar() {
               variant="contained"
               component={RouterLink}
               to="/login"
-              sx={{ background: "purple", textTransform: "none" }}
+              sx={{ background: "#E53935", textTransform: "none" }}
             >
               Login
             </Button>

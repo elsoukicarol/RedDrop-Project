@@ -42,7 +42,7 @@ export class CharitiesController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard('jwt')) // Optional: Use this for route protection
+  // @UseGuards(AuthGuard('jwt')) // Optional: Use this for route protection
   async updateCharity(
     @Param('id') id: number,
     @Body() updateCharityDto: UpdateCharityDto,
@@ -56,7 +56,7 @@ export class CharitiesController {
   }
 
   @Get('/getall')
-  @UseGuards(AuthGuard('jwt')) // Optional: Use this if you want the endpoint to be protected
+  // @UseGuards(AuthGuard('jwt')) // Optional: Use this if you want the endpoint to be protected
   async findAllCharities() {
     return this.charitiesService.getAllCharities();
   }

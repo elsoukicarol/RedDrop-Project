@@ -1,73 +1,94 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   Card,
   CardContent,
   CardMedia,
   Container,
-  Grid,
   Paper,
   Typography,
 } from "@mui/material";
+import { Swiper as SwiperClass, SwiperSlide } from 'swiper/react';
+import SwiperCore from 'swiper';
+import { Navigation } from 'swiper/modules';
+import { Swiper } from 'swiper/types';
+import 'swiper/css'; // core Swiper
+import 'swiper/css/navigation';
+
+SwiperCore.use([Navigation]);
+
 const primaryColor = "#1976d2";
 const secondaryColor = "#fff";
+
+interface Charity {
+  charity_name: string;
+  picture: string;
+  description: string;
+}
+
 export default function MainContent() {
-  const bloodTypes = [
-    { type: "O+", image: "/assets/img/add/1.png" },
-    { type: "A-", image: "/assets/img/add/2.png" },
-    { type: "B-", image: "/assets/img/add/3.png" },
-    { type: "AB+", image: "/assets/img/add/4.png" },
-    { type: "B+", image: "/assets/img/add/add2.png" },
-    // Note: The last type 'B+' is repeated, you might want to have a different type or image here
-  ];
+  const [charities, setCharities] = useState<Charity[]>([]);
+
+  useEffect(() => {
+    const fetchCharities = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/charities/getall');
+        setCharities(response.data);
+      } catch (error) {
+        console.error('Error fetching charities:', error);
+      }
+    };
+
+    fetchCharities();
+  }, []);
 
   return (
     <Container maxWidth="lg">
-      <Paper
-        elevation={0}
-        sx={{
-          my: 4,
-          p: 4,
-          backgroundImage: "url(/hero-background.jpg)",
-          color: secondaryColor,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <Typography
-          variant="h3"
-          component="h1"
-          gutterBottom
-          sx={{ fontWeight: "bold", color: primaryColor }}
-        >
-          Donate blood with Blood Drop
+      <Paper elevation={0} sx={{
+        my: 4,
+        p: 4,
+        backgroundImage: "url(/img/donatebloodbg.webp)",
+        color: secondaryColor,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: 500,
+      }}>
+        {/* <Typography variant="h3" component="h1" gutterBottom sx={{fontWeight: "bold", color: "white" , textAlign:"center", marginTop:-3}}>
+          Donate blood with Red Drop
         </Typography>
-        <Typography variant="h6" sx={{ color: secondaryColor }}>
+        <Typography variant="h6" sx={{ color: secondaryColor, textAlign:"left", marginTop:55 }}>
           Join us in saving lives with every drop!
-        </Typography>
-        {/* Call to action buttons and other content here */}
+        </Typography> */}
       </Paper>
 
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-        Urgent blood needs
+      Non-profit Making Organizations
       </Typography>
-      <Grid container spacing={2}>
-        {bloodTypes.map((blood) => (
-          <Grid item xs={12} sm={6} md={4} lg={2} key={blood.type}>
+      <SwiperClass
+        spaceBetween={50}
+        slidesPerView={5}
+        navigation
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper: Swiper) => console.log(swiper)}
+      >
+        {charities.map((charity) => (
+          <SwiperSlide key={charity.charity_name}>
             <Card sx={{ maxWidth: 345, mb: 4 }}>
               <CardMedia
                 component="img"
                 height="140"
-                image={blood.image} // Use the image from the object
-                alt={`${blood.type} blood`}
+                image={charity.picture}
+                alt={`${charity.charity_name}`}
               />
-              <CardContent>
+              <CardContent sx={{backgroundColor:"#f9f9f9"}}>
                 <Typography variant="h6" component="div">
-                  {blood.type}
+                  {charity.charity_name}
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </SwiperSlide>
         ))}
-      </Grid>
+      </SwiperClass>
     </Container>
   );
 }

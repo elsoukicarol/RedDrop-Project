@@ -1,7 +1,9 @@
 import { Box, Button, Paper, Typography, useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function CallToActionBox() {
     const theme = useTheme();
+    let navigate = useNavigate();
   
     return (
       <Paper
@@ -28,7 +30,8 @@ export default function CallToActionBox() {
             Join our Blood Heroes Club today!
           </Typography>
         </Box>
-        <Button variant="contained" color="primary" sx={{ borderRadius: 20, px: 4 }}>
+        <Button variant="contained" sx={{ borderRadius: 20, px: 4 , backgroundColor:"#E53935"}}
+        onClick={() => navigate("/signup")}>
           Join now
         </Button>
       </Paper>
