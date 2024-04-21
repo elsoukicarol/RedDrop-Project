@@ -43,17 +43,43 @@ let PostService = class PostService {
         const posts = await this.postRepository.find({
             where: { user: { id: userId } },
             select: [
-                'title',
-                'description',
-                'blood_type',
-                'location',
-                'quantity',
-                'status',
-                'id',
+                "title",
+                "description",
+                "blood_type",
+                "location",
+                "quantity",
+                "status",
+                "id",
+                "created_at",
             ],
         });
         if (!posts.length) {
-            throw new common_1.NotFoundException('No posts found for this user.');
+            throw new common_1.NotFoundException("No posts found for this user.");
+        }
+        return posts;
+    }
+    async getAllPosts(excludeUserId) {
+        const posts = await this.postRepository.createQueryBuilder('post')
+            .leftJoinAndSelect('post.user', 'user')
+            .where('post.user.id != :userId', { userId: excludeUserId })
+            .select([
+            'post.id',
+            'post.title',
+            'post.description',
+            'post.blood_type',
+            'post.quantity',
+            'post.location',
+            'post.urgent',
+            'post.status',
+            'post.created_at',
+            'post.updated_at',
+            'user.id',
+            'user.first_name',
+            'user.last_name'
+        ])
+            .getMany();
+        if (!posts.length) {
+            throw new common_1.NotFoundException('No posts found excluding this user.');
         }
         return posts;
     }

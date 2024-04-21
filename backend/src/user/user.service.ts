@@ -73,6 +73,21 @@ export class UserService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async update(updateUserDto: UpdateUserDto, userId: number): Promise<User> {
+  
+    const user = await this.usersRepository.findOneBy({ id: userId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+  
+    Object.assign(user, updateUserDto);
+  
+    await this.usersRepository.save(user);
+    return user;
+  }
+  
+
   /// checkear
   async activateUser(id: number, otp: string): Promise<boolean> {
     const user = await this.usersRepository.findOne({ where: { id: id } });
@@ -105,7 +120,6 @@ export class UserService {
     email: string,
     password: string
   ): Promise<{ access_token: string } | null> {
-    console.log("aqui");
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {
       throw new UnauthorizedException("User does not exist.");
@@ -147,10 +161,6 @@ export class UserService {
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
   }
 
   remove(id: number) {

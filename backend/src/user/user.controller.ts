@@ -11,6 +11,7 @@ import {
   UseGuards,
   Req,
   Res,
+  Put,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -57,14 +58,14 @@ export class UserController {
   // @AuthGuard('jwt')
   @Post("login")
   async login(
-    @Body() body: { email: string; password: string }
-    /// passthrough sends cookie to the frontend
+    @Body() body: { email: string; password: string },
+    @Res() response: Response
   ) {
     try {
       const user = await this.userService.login(body.email, body.password);
 
       if (user != null) {
-        return { message: user };
+        response.status(200).json(user);
       }
     } catch (error) {
       if (error instanceof UnauthorizedException) {
@@ -86,6 +87,25 @@ export class UserController {
       return error.message;
     }
   }
+
+  @Put(':id')
+  @UseGuards(AuthGuard('jwt')) // Use this if you want the endpoint to be protected
+  async updateUser(
+    @Param('id') userId: number,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() request: RequestWithUser
+  ): Promise<User> {
+    try {
+      if (request.user.userId !== userId) {
+        throw new Error('Unauthorized to update this user');
+      }
+      return await this.userService.update(updateUserDto, userId);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -99,11 +119,6 @@ export class UserController {
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.userService.findOne(+id);
-  }
-
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(":id")

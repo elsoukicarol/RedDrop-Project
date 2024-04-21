@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -13,6 +13,8 @@ import {
   Grid,
 } from "@mui/material";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 function Survey() {
   const [role, setRole] = useState<string>("");
@@ -20,13 +22,13 @@ function Survey() {
   const [weight, setWeight] = useState<string>("");
   const [age, setAge] = useState<string>("");
   const [medications, setMedications] = useState<string>("");
-  const [state, setState] = useState<string>("");
+  const [location, setState] = useState<string>("");
   const [medical_condition, setMedicalCondition] = useState<string>("");
-  const [specialNotes, setSpecialNotes] = useState<string>("");
+  // const [specialNotes, setSpecialNotes] = useState<string>("");
   const [tattoos, setTattoos] = useState<string>("");
-  const [tattos_lately, setTattoosLately] = useState<string>("");
+  const [tattoos_lately, setTattoosLately] = useState<string>("");
   const [specify_conditions, setConditions] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
+  // const [country, setCountry] = useState<string>("");
 
   const handleChange = (event: SelectChangeEvent<string> | any) => {
     const { name, value } = event.target;
@@ -40,13 +42,10 @@ function Survey() {
       case "weight":
         setWeight(value);
         break;
-      case "specialNotes":
-        setSpecialNotes(value);
-        break;
       case "age":
         setAge(value);
         break;
-      case "state":
+      case "location":
         setState(value);
         break;
       case "medical_condition":
@@ -55,7 +54,7 @@ function Survey() {
       case "tattoos":
         setTattoos(value);
         break;
-      case "tattos_lately":
+      case "tattoos_lately":
         setTattoosLately(value);
         break;
       case "medications":
@@ -64,44 +63,49 @@ function Survey() {
       case "specify_conditions":
         setConditions(value);
         break;
-      case "country":
-        setCountry(value);
-        break;
       default:
         break;
     }
   };
 
+  let navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let userData;
-    if (role === "Donor") {
-      userData = {
-        role,
-        blood_type,
-        weight,
-        age,
-        medications,
-      };
-    } else {
-      userData = {
-        role,
-        blood_type,
-        state,
-      };
-    }
-
-    console.log("Sending Data:", userData);
-
-    // Send the data to the backend
+    let userData = {
+      role,
+      blood_type,
+      weight,
+      age,
+      medications,
+      medical_condition,
+      location,
+      tattoos,
+      tattoos_lately,
+      specify_conditions,
+    };
     try {
-      const response = await axios.post(
-        "https://your-backend-endpoint.com/api/data",
-        userData
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        console.error("Access token is missing");
+        return;
+      }
+      const decoded = jwtDecode<{ sub: number }>(token);
+      const userId = decoded.sub;
+      console.log("Sending userData:", userData);
+      // eslint-disable-next-line no-template-curly-in-string
+      const response = await axios.put(
+        `http://localhost:3001/api/user/${userId}`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
-      console.log("Server Response:", response.data);
-      // Handle the response based on your application needs
+      console.log(response);
+      navigate("/home");
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -110,27 +114,33 @@ function Survey() {
   return (
     <form onSubmit={handleSubmit}>
       <Box
-component={Paper}
-elevation={3}
-p={3}
-sx={{
-  maxWidth: 400,
-  margin: "auto",
-  display: 'flex',
-  marginLeft:2,
-  flexDirection: 'column',
-  borderRadius: "16px",
-  alignItems: 'center', // This will center the items horizontally
-}}
+        component={Paper}
+        elevation={3}
+        p={3}
+        sx={{
+          maxWidth: 400,
+          margin: "auto",
+          display: "flex",
+          marginLeft: 2,
+          flexDirection: "column",
+          borderRadius: "16px",
+          alignItems: "center", // This will center the items horizontally
+        }}
       >
-        <Typography variant="h4" gutterBottom sx={{ color: '#5e35b1' }}> {/* Dark purple color */}
+        <Typography variant="h4" gutterBottom sx={{ color: "#5e35b1" }}>
+          {" "}
+          {/* Dark purple color */}
           Tell us about yourself.
         </Typography>
-        <Typography variant="body2" gutterBottom sx={{ mb: 4, color: '#5e35b1' }}>
+        <Typography
+          variant="body2"
+          gutterBottom
+          sx={{ mb: 4, color: "#5e35b1" }}
+        >
           ALWAY REMEMBER THAT YOUR INFORMATION IS PRIVATE
         </Typography>
 
-        <FormControl fullWidth required sx={{ mb: 2 , width: 300}}>
+        <FormControl fullWidth required sx={{ mb: 2, width: 300 }}>
           <InputLabel id="role-select-label">Role</InputLabel>
           <Select
             labelId="role-select-label"
@@ -147,25 +157,12 @@ sx={{
         </FormControl>
 
         {role === "Donor" && (
-          // <div>
-
-          //     <TextField
-          //       label="Special Notes for Admin"
-          //       variant="outlined"
-          //       fullWidth
-          //       name="specialNotes"
-          //       value={specialNotes}
-          //       onChange={handleChange}
-          //       sx={{ mb: 2 }}
-          //     />
-          // </div>
-
           <div>
             <React.Fragment>
-              <Grid container spacing={2} sx={{ mb: 2}}>
+              <Grid container spacing={2} sx={{ mb: 2 }}>
                 {/* Blood Type */}
                 <Grid item xs={12} sm={6}>
-                  <FormControl sx={{ width: 188}} fullWidth>
+                  <FormControl sx={{ width: 188 }} fullWidth>
                     <InputLabel id="blood-select-label">Blood Type</InputLabel>
                     <Select
                       labelId="blood-select-label"
@@ -226,9 +223,9 @@ sx={{
                     <Select
                       labelId="state-select-label"
                       id="state-select"
-                      name="state"
-                      value={state}
-                      label="state"
+                      name="location"
+                      value={location}
+                      label="location"
                       onChange={handleChange}
                     >
                       <MenuItem value="Beirut">Beirut</MenuItem>
@@ -315,8 +312,8 @@ sx={{
                 <Select
                   labelId="tattoslately-select-label"
                   id="tattoslately-select"
-                  name="tattos_lately"
-                  value={tattos_lately}
+                  name="tattoos_lately"
+                  value={tattoos_lately}
                   label="tattos"
                   onChange={handleChange}
                 >
@@ -329,105 +326,107 @@ sx={{
         )}
 
         {role === "Recipient" && (
-            <React.Fragment>
-              <Grid container spacing={2} sx={{ mb: 2 }}>
-                {/* Blood Type */}
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="blood-select-label">Blood Type</InputLabel>
-                    <Select
-                      labelId="blood-select-label"
-                      id="blood-select"
-                      name="blood_type"
-                      value={blood_type}
-                      label="Blood Type"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="A+">A+</MenuItem>
-                      <MenuItem value="A-">A-</MenuItem>
-                      <MenuItem value="B+">B+</MenuItem>
-                      <MenuItem value="B-">B-</MenuItem>
-                      <MenuItem value="AB+">AB+</MenuItem>
-                      <MenuItem value="AB-">AB-</MenuItem>
-                      <MenuItem value="O+">O+</MenuItem>
-                      <MenuItem value="O-">O-</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                {/* Weight */}
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Weight (kg)"
-                    variant="outlined"
-                    fullWidth
-                    name="weight"
-                    value={weight}
+          <React.Fragment>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
+              {/* Blood Type */}
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="blood-select-label">Blood Type</InputLabel>
+                  <Select
+                    labelId="blood-select-label"
+                    id="blood-select"
+                    name="blood_type"
+                    value={blood_type}
+                    label="Blood Type"
                     onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="age-select-label">Age</InputLabel>
-                    <Select
-                      labelId="age-select-label"
-                      id="age-select"
-                      name="age"
-                      value={age}
-                      label="Age"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="17">Under 18</MenuItem>
-                      <MenuItem value="18">18-24</MenuItem>
-                      <MenuItem value="25">25-29</MenuItem>
-                      <MenuItem value="30">30-35</MenuItem>
-                      <MenuItem value="40">35-40</MenuItem>
-                      <MenuItem value="45">45-50</MenuItem>
-                      <MenuItem value="50">50-55</MenuItem>
-                      <MenuItem value="60">Over 55</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="state-select-label">Region</InputLabel>
-                    <Select
-                      labelId="state-select-label"
-                      id="state-select"
-                      name="state"
-                      value={state}
-                      label="state"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="Beirut">Beirut</MenuItem>
-                      <MenuItem value="Mount Lebanon">Mount Lebanon</MenuItem>
-                      <MenuItem value="North Lebanon">North Lebanon</MenuItem>
-                      <MenuItem value="Beqaa">Beqaa</MenuItem>
-                      <MenuItem value="Nabatieh">Nabatieh</MenuItem>
-                      <MenuItem value="South Lebanon">South Lebanon</MenuItem>
-                      <MenuItem value="Akkar">Akkar</MenuItem>
-                      <MenuItem value="Baalbek-Hermel">Baalbek-Hermel</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+                  >
+                    <MenuItem value="A+">A+</MenuItem>
+                    <MenuItem value="A-">A-</MenuItem>
+                    <MenuItem value="B+">B+</MenuItem>
+                    <MenuItem value="B-">B-</MenuItem>
+                    <MenuItem value="AB+">AB+</MenuItem>
+                    <MenuItem value="AB-">AB-</MenuItem>
+                    <MenuItem value="O+">O+</MenuItem>
+                    <MenuItem value="O-">O-</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
-            </React.Fragment>
+
+              {/* Weight */}
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Weight (kg)"
+                  variant="outlined"
+                  fullWidth
+                  name="weight"
+                  value={weight}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="age-select-label">Age</InputLabel>
+                  <Select
+                    labelId="age-select-label"
+                    id="age-select"
+                    name="age"
+                    value={age}
+                    label="Age"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="17">Under 18</MenuItem>
+                    <MenuItem value="18">18-24</MenuItem>
+                    <MenuItem value="25">25-29</MenuItem>
+                    <MenuItem value="30">30-35</MenuItem>
+                    <MenuItem value="40">35-40</MenuItem>
+                    <MenuItem value="45">45-50</MenuItem>
+                    <MenuItem value="50">50-55</MenuItem>
+                    <MenuItem value="60">Over 55</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="state-select-label">Region</InputLabel>
+                  <Select
+                    labelId="state-select-label"
+                    id="state-select"
+                    name="state"
+                    value={location}
+                    label="state"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Beirut">Beirut</MenuItem>
+                    <MenuItem value="Mount Lebanon">Mount Lebanon</MenuItem>
+                    <MenuItem value="North Lebanon">North Lebanon</MenuItem>
+                    <MenuItem value="Beqaa">Beqaa</MenuItem>
+                    <MenuItem value="Nabatieh">Nabatieh</MenuItem>
+                    <MenuItem value="South Lebanon">South Lebanon</MenuItem>
+                    <MenuItem value="Akkar">Akkar</MenuItem>
+                    <MenuItem value="Baalbek-Hermel">Baalbek-Hermel</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </React.Fragment>
         )}
 
-    <Button type="submit"
+        <Button
+          type="submit"
           variant="contained"
           sx={{
             mt: 2,
-            bgcolor: '#5e35b1', // Use a theme color here
-            ':hover': {
-              bgcolor: '#4527a0' // Darken the color slightly on hover
+            bgcolor: "#5e35b1", // Use a theme color here
+            ":hover": {
+              bgcolor: "#4527a0", // Darken the color slightly on hover
             },
-            color: 'white'
-          }}>
-     Submit
-    </Button>
-    </Box>
-     </form>
+            color: "white",
+          }}
+        >
+          Submit
+        </Button>
+      </Box>
+    </form>
   );
 }
 

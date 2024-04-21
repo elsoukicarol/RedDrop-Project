@@ -11,6 +11,7 @@ export declare class UserService {
     create(createUserDto: CreateUserDto): Promise<{
         access_token: string;
     }>;
+    update(updateUserDto: UpdateUserDto, userId: number): Promise<User>;
     activateUser(id: number, otp: string): Promise<boolean>;
     decodeToken(token: string): any;
     login(email: string, password: string): Promise<{
@@ -19,6 +20,5 @@ export declare class UserService {
     findAllDonors(requestingUserId: number): Promise<Partial<User>[]>;
     findAll(): string;
     findOne(id: number): string;
-    update(id: number, updateUserDto: UpdateUserDto): string;
     remove(id: number): string;
 }

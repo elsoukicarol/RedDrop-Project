@@ -68,13 +68,6 @@ const Search = styled('div')(({ theme }) => ({
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          {/* <IconButton
-            type="submit"
-            aria-label="search"
-            onClick={handleSearchSubmit}
-          >
-            <SearchIcon />
-          </IconButton> */}
         </Search>
         <Box sx={{ p: 2, display: 'flex', gap: 2 , marginLeft: 40}}>
           <Button variant="contained" color="secondary" sx={{ borderRadius: '20px' }}>

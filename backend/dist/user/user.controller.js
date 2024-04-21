@@ -47,11 +47,11 @@ let UserController = class UserController {
         }
         return true;
     }
-    async login(body) {
+    async login(body, response) {
         try {
             const user = await this.userService.login(body.email, body.password);
             if (user != null) {
-                return { message: user };
+                response.status(200).json(user);
             }
         }
         catch (error) {
@@ -70,6 +70,18 @@ let UserController = class UserController {
             return error.message;
         }
     }
+    async updateUser(userId, updateUserDto, request) {
+        try {
+            if (request.user.userId !== userId) {
+                throw new Error('Unauthorized to update this user');
+            }
+            return await this.userService.update(updateUserDto, userId);
+        }
+        catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
     create(createUserDto) {
         return this.userService.create(createUserDto);
     }
@@ -78,9 +90,6 @@ let UserController = class UserController {
     }
     findOne(id) {
         return this.userService.findOne(+id);
-    }
-    update(id, updateUserDto) {
-        return this.userService.update(+id, updateUserDto);
     }
     remove(id) {
         return this.userService.remove(+id);
@@ -105,8 +114,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)("login"),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "login", null);
 __decorate([
@@ -117,6 +127,16 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAllDonors", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_user_dto_1.UpdateUserDto, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -137,14 +157,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Patch)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),

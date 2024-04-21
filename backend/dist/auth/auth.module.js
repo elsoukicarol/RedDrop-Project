@@ -17,10 +17,10 @@ exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
+            passport_1.PassportModule.register({ defaultStrategy: "jwt" }),
             jwt_1.JwtModule.register({
-                secret: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxMTkxNTc4OSwiaWF0IjoxNzExOTE1Nzg5fQ.n3eL_SAY4hR1JWCaXICvIQEXDycmf3mWfBfDlBDDzco',
-                signOptions: { expiresIn: '60s' },
+                secret: "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxMTkxNTc4OSwiaWF0IjoxNzExOTE1Nzg5fQ.n3eL_SAY4hR1JWCaXICvIQEXDycmf3mWfBfDlBDDzco",
+                signOptions: { expiresIn: "1h" },
             }),
         ],
         providers: [jwt_strategy_1.JwtStrategy],

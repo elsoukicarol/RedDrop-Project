@@ -32,9 +32,9 @@ let PostController = class PostController {
             const result = await this.postService.deletePost(postId, userId);
             console.log(result);
             if (!result) {
-                return { message: 'Post was not found' };
+                return { message: "Post was not found" };
             }
-            return { message: 'Post was deleted successfully' };
+            return { message: "Post was deleted successfully" };
         }
         catch (error) {
             return { message: error.message };
@@ -43,6 +43,15 @@ let PostController = class PostController {
     async findAllPostsByUserId(userId, request) {
         try {
             return await this.postService.findAllPostsByUserId(request.user.userId);
+        }
+        catch (error) {
+            console.log(error);
+            return error.message;
+        }
+    }
+    async getAllPosts(userId, request) {
+        try {
+            return await this.postService.getAllPosts(request.user.userId);
         }
         catch (error) {
             console.log(error);
@@ -68,8 +77,8 @@ let PostController = class PostController {
 };
 exports.PostController = PostController;
 __decorate([
-    (0, common_1.Post)('create'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Post)("create"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -77,27 +86,36 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "createPost", null);
 __decorate([
-    (0, common_1.Delete)(':postId'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    __param(0, (0, common_1.Param)('postId')),
+    (0, common_1.Delete)(":postId"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
+    __param(0, (0, common_1.Param)("postId")),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "deletePost", null);
 __decorate([
-    (0, common_1.Get)('/userposts'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.Get)("/userposts"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
+    __param(0, (0, common_1.Param)("userId")),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "findAllPostsByUserId", null);
 __decorate([
-    (0, common_1.Patch)(':postId'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    __param(0, (0, common_1.Param)('postId')),
+    (0, common_1.Get)("/getAllPosts"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getAllPosts", null);
+__decorate([
+    (0, common_1.Patch)(":postId"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
+    __param(0, (0, common_1.Param)("postId")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -111,29 +129,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_post_dto_1.UpdatePostDto]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "remove", null);
 exports.PostController = PostController = __decorate([
-    (0, common_1.Controller)('post'),
+    (0, common_1.Controller)("post"),
     __metadata("design:paramtypes", [post_service_1.PostService])
 ], PostController);
 //# sourceMappingURL=post.controller.js.map

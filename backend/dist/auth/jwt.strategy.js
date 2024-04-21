@@ -8,7 +8,7 @@ class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strate
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxMTkxNTc4OSwiaWF0IjoxNzExOTE1Nzg5fQ.n3eL_SAY4hR1JWCaXICvIQEXDycmf3mWfBfDlBDDzco',
+            secretOrKey: "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxMTkxNTc4OSwiaWF0IjoxNzExOTE1Nzg5fQ.n3eL_SAY4hR1JWCaXICvIQEXDycmf3mWfBfDlBDDzco",
         });
     }
     async validate(payload) {

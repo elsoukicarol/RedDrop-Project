@@ -68,6 +68,15 @@ let UserService = class UserService {
             access_token: await this.jwtService.signAsync(payload),
         };
     }
+    async update(updateUserDto, userId) {
+        const user = await this.usersRepository.findOneBy({ id: userId });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        Object.assign(user, updateUserDto);
+        await this.usersRepository.save(user);
+        return user;
+    }
     async activateUser(id, otp) {
         const user = await this.usersRepository.findOne({ where: { id: id } });
         if (!user || user.otp !== otp) {
@@ -90,7 +99,6 @@ let UserService = class UserService {
         }
     }
     async login(email, password) {
-        console.log("aqui");
         const user = await this.usersRepository.findOne({ where: { email } });
         if (!user) {
             throw new common_1.UnauthorizedException("User does not exist.");
@@ -126,9 +134,6 @@ let UserService = class UserService {
     }
     findOne(id) {
         return `This action returns a #${id} user`;
-    }
-    update(id, updateUserDto) {
-        return `This action updates a #${id} user`;
     }
     remove(id) {
         return `This action removes a #${id} user`;

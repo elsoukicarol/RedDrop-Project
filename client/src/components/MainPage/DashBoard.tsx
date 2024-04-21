@@ -1,88 +1,106 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
   Typography,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
   Divider,
   Chip,
-  Button,
-  Stack,
+  // Button,
+  // Stack,
   Container,
 } from "@mui/material";
-import {
-  CheckCircle as CheckCircleIcon,
-  ClearAll as ClearAllIcon,
-} from "@mui/icons-material";
-import Filter from "./Filters";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+interface Post {
+  user: {
+    first_name: string;
+    last_name: string;
+  };
+  id: number;
+  title: string;
+  description: string;
+  blood_type: string;
+  quantity: string;
+  location: string;
+  urgent: boolean;
+  status: string;
+}
 
-const notifications = [
-  {
-    id: 1,
-    title: "Donor Update",
-    description: "Thank you for your contribution",
-    time: "1 hour ago",
-    avatar: "/path-to-avatar.jpg", // Replace with the path to your avatar images
-  },
-  // ... more notifications
-];
+const useFetchPosts = () => {
+  const [posts, setPosts] = useState<Post[]>([]); // Ensure initial state is an array
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          console.error('Access token is missing');
+          return;
+        }
+        const decoded = jwtDecode<{ sub: number }>(token);  // Correctly decode your token
+        const response = await axios.get('http://localhost:3001/api/post/getAllPosts', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          params: { userId: decoded.sub }
+        });
+        if (Array.isArray(response.data)) {
+          const sortedPosts = response.data.sort((a, b) => 
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+          setPosts(sortedPosts);
+        } else {
+          console.error('Data received is not an array:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  return posts;
+};
 export default function Dashboard() {
+  const posts = useFetchPosts();
   return (
-    <Container
-      sx={{ display: "flex", p: 3, marginLeft: "240px", maxWidth: "none"}}
-    >
-      {" "}
-      {/* Container to hold both components */}
-      {/* Notifications Section with flexible width */}
-      <Box sx={{ width: 800 }}>
-        {" "}
-        {/* Subtract width of Filter and margin */}
-        <Typography variant="h4" sx={{ mb: 2 }}>
-          Notifications
-        </Typography>
-        <Paper elevation={1} sx={{ p: 2 }}>
-          <Typography variant="subtitle1" sx={{ mb: 2 }}>
-            New
-          </Typography>
-          <List>
-            {notifications.map((notification) => (
-              <React.Fragment key={notification.id}>
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt="Profile Picture" src={notification.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={notification.title}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: "inline" }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          {notification.description}
-                        </Typography>
-                        <Chip
-                          label={notification.time}
-                          size="small"
-                          sx={{ ml: 1 }}
-                        />
-                      </>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </React.Fragment>
-            ))}
-          </List>
-        </Paper>
-      </Box>
+    <Container sx={{ display: "inline", p: 3, marginLeft: "240px", maxWidth: "none" }}>
+      {posts.map((post) => (
+        <Box key={post.id} sx={{ width: 800, mb: 3 }}> {/* Ensuring each post has its own Box */}
+          <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+          <Typography variant="h5" sx={{ mb: 2 }}>
+              {post.user.first_name} {post.user.last_name}
+            </Typography>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              {post.title}
+            </Typography>
+            <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+              {post.description}
+            </Typography>
+            <Typography component="div" variant="body2" sx={{ mt: 1 }}>
+              Blood Type: {post.blood_type}
+            </Typography>
+            <Typography component="div" variant="body2">
+              Quantity: {post.quantity}
+            </Typography>
+            <Typography component="div" variant="body2">
+              Location: {post.location}
+            </Typography>
+            <Typography component="div" variant="body2">
+              Status: {post.status}
+            </Typography>
+            {/* <Typography component="div" variant="body2">
+              Posted by: {post.user.first_name} {post.user.last_name}
+            </Typography> */}
+            {post.urgent && (
+              <Chip label="Urgent" color="error" size="small" sx={{ mt: 1 }} />
+            )}
+            <Divider sx={{ my: 1 }} /> {/* Divider to visually separate post details */}
+          </Paper>
+        </Box>
+      ))}
     </Container>
   );
 }

@@ -30,7 +30,7 @@ export default function OTP() {
             });
       
             console.log("Activation response:", response.data);
-            navigate('/main'); 
+            navigate('/form'); 
           } catch (error: any) {
             console.error("Failed to activate account:", error.response?.data || error.message);
             alert("Activation failed: " + (error.response?.data.message || error.message));

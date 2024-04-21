@@ -13,6 +13,9 @@ import LandingPage from './components/LandingPage/LandingPage';
 import Sidebar from './components/MainPage/SideNavBar';
 import MainPage from './components/MainPage/MainPage';
 import UserProfile from './components/UserProfile/UserProfile';
+import HomePage from './components/Home/HomePage';
+import DonorPage from './components/Donor/DonorFullPage';
+import Form from './components/Form'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -28,12 +31,11 @@ root.render(
         <Route path="/activate" element={<OTP />} />
         <Route path="/main" element={<MainPage />}/>
         <Route path="/profile" element={<UserProfile />}/>
+        <Route path="/home" element={<HomePage />}/>
+        <Route path="/donors" element={<DonorPage />}/>
+        <Route path="/form" element={<Form />}/>
       </Routes>
     </Router>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

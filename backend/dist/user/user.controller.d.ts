@@ -15,17 +15,13 @@ export declare class UserController {
     login(body: {
         email: string;
         password: string;
-    }): Promise<{
-        message: {
-            access_token: string;
-        };
-    }>;
+    }, response: Response): Promise<void>;
     findAllDonors(request: RequestWithUser): Promise<Partial<User>[]>;
+    updateUser(userId: number, updateUserDto: UpdateUserDto, request: RequestWithUser): Promise<User>;
     create(createUserDto: CreateUserDto): Promise<{
         access_token: string;
     }>;
     findAll(): string;
     findOne(id: string): string;
-    update(id: string, updateUserDto: UpdateUserDto): string;
     remove(id: string): string;
 }

@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-// import { ChatMessage } from '../../chat/entities/chat.entity';
 @Entity({ name: "users" })
 export class User {
   @PrimaryGeneratedColumn()
@@ -26,7 +25,7 @@ export class User {
   @Column({ type: "int", default: 0, nullable: true })
   points: number;
 
-  @Column({ type: "varchar", default: 15, nullable: true })
+  @Column({ type: "varchar", default: '15', nullable: true })
   role: string;
 
   @Column({ nullable: true })
@@ -35,9 +34,24 @@ export class User {
   @Column({ default: false })
   isActivated: boolean;
 
-  //   @OneToMany(() => ChatMessage, (message) => message.sender)
-  //   sentMessages: ChatMessage[];
+  @Column({ type: "varchar", nullable: true })
+  weight: string;
 
-  //   @OneToMany(() => ChatMessage, (message) => message.receiver)
-  //   receivedMessages: ChatMessage[];
+  @Column({ type: "varchar", nullable: true })
+  age: string;
+
+  @Column({ type: "varchar", nullable: true })
+  medical_condition: string;
+
+  @Column({ type: "varchar", default: false, nullable: true })
+  tattoos: string;
+
+  @Column({ type: "varchar", default: false, nullable: true })
+  tattoos_lately: string;
+
+  @Column({ type: "varchar", nullable: true })
+  medications: string;
+
+  @Column({ type: "varchar", nullable: true })
+  specify_conditions: string;
 }

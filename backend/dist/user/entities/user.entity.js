@@ -47,7 +47,7 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "points", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", default: 15, nullable: true }),
+    (0, typeorm_1.Column)({ type: "varchar", default: '15', nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
@@ -58,6 +58,34 @@ __decorate([
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], User.prototype, "isActivated", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "weight", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "age", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "medical_condition", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", default: false, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "tattoos", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", default: false, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "tattoos_lately", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "medications", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "specify_conditions", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)({ name: "users" })
 ], User);
