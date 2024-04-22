@@ -25,13 +25,18 @@ export class FinancialTransactionsController {
   @Post("/create")
   @UseGuards(AuthGuard("jwt"))
   async create(
-    @Body() createFinancialTransactionDto: CreateFinancialTransactionDto,
+    @Body("amount") amount: number,
+    @Body("currency") currency: string,
+    @Body("user_id") user_id: number, 
+    @Body("charity_id") charity_id: number,
     @Req() request: RequestWithUser
   ): Promise<{ message: FinancialTransaction }> {
     try {
       const transaction = await this.financialTransactionsService.create(
-        createFinancialTransactionDto,
-        request.user.userId
+        amount,
+        currency,
+        user_id,
+        charity_id
       );
       return { message: transaction };
     } catch (error) {

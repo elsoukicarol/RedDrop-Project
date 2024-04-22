@@ -80,6 +80,16 @@ const Sidebar: React.FC = () => {
                 </Link>
               </ListItem>
             </List>
+            <List component="div" disablePadding>
+              <ListItem button sx={{ pl: 4 }}>
+                <Link
+                  to="/Non-ProfitOrganizations"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <ListItemText primary="Non-Profit Organizations" />
+                </Link>
+              </ListItem>
+            </List>
           </Collapse>
 
           <ListItem button onClick={handleBloodSupplyClick}>

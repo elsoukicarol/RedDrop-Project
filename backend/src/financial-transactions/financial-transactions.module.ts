@@ -14,5 +14,6 @@ import { Charity } from "src/charities/entities/charity.entity";
   ],
   controllers: [FinancialTransactionsController],
   providers: [FinancialTransactionsService],
+  exports: [FinancialTransactionsService],
 })
 export class FinancialTransactionsModule {}

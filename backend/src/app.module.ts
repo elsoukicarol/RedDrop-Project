@@ -10,6 +10,7 @@ import { PostModule } from './post/post.module';
 import { CharitiesModule } from './charities/charities.module';
 import { FaqModule } from './faq/faq.module';
 import { FinancialTransactionsModule } from './financial-transactions/financial-transactions.module';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { FinancialTransactionsModule } from './financial-transactions/financial-
     CharitiesModule,
     FaqModule,
     FinancialTransactionsModule,
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

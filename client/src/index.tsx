@@ -16,6 +16,8 @@ import UserProfile from './components/UserProfile/UserProfile';
 import HomePage from './components/Home/HomePage';
 import DonorPage from './components/Donor/DonorFullPage';
 import Form from './components/Form'
+import CharityPage from './components/Charities/CharitiesPage';
+import StripeContainer from './components/Stripe/CheckOut';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -34,6 +36,8 @@ root.render(
         <Route path="/home" element={<HomePage />}/>
         <Route path="/donors" element={<DonorPage />}/>
         <Route path="/form" element={<Form />}/>
+        <Route path="/Non-ProfitOrganizations" element={<CharityPage />}/>
+        <Route path="/donate" element={<StripeContainer />}/>
       </Routes>
     </Router>
   </React.StrictMode>

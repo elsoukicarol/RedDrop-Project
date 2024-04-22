@@ -53,12 +53,6 @@ export default function MainContent() {
         backgroundPosition: "center",
         height: 500,
       }}>
-        {/* <Typography variant="h3" component="h1" gutterBottom sx={{fontWeight: "bold", color: "white" , textAlign:"center", marginTop:-3}}>
-          Donate blood with Red Drop
-        </Typography>
-        <Typography variant="h6" sx={{ color: secondaryColor, textAlign:"left", marginTop:55 }}>
-          Join us in saving lives with every drop!
-        </Typography> */}
       </Paper>
 
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>

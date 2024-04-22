@@ -22,6 +22,9 @@ export class FinancialTransaction {
 
   @Column({ type: "date" })
   date: Date;
+  
+  @Column({ type: "varchar" })
+  currency: string;
 
   // Define the foreign key column for the Charity relationship
   @Column({ name: "charity_id" }) // This column definition was missing

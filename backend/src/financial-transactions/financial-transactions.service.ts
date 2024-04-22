@@ -19,10 +19,11 @@ export class FinancialTransactionsService {
   ) {}
 
   async create(
-    createFinancialTransactionDto: CreateFinancialTransactionDto,
-    user_id: number
+    amount: number,
+    currency: string,
+    user_id: number,
+    charity_id:number,
   ): Promise<FinancialTransaction> {
-    const { amount, charity_id } = createFinancialTransactionDto;
 
     const user = await this.userRepository.findOne({ where: { id: user_id } });
     const charity = await this.charityRepository.findOne({
@@ -39,6 +40,7 @@ export class FinancialTransactionsService {
     const newFinancialTransaction = this.financialTransactionRepository.create({
       user,
       amount,
+      currency,
       date: new Date(),
       charity_id,
     });
@@ -61,6 +63,15 @@ export class FinancialTransactionsService {
     return `This action returns all financialTransactions`;
   }
 
+  async save(charityPayment: FinancialTransaction): Promise<FinancialTransaction> {
+    try {
+      return await this.financialTransactionRepository.save(charityPayment);
+    } catch (error) {
+      console.error("Failed to save charity payment:", error);
+      throw new Error("Database operation failed.");
+    }
+  }
+  
   findOne(id: number) {
     return `This action returns a #${id} financialTransaction`;
   }
