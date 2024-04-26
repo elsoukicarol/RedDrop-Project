@@ -15,7 +15,7 @@ RedDrop is more than just a platform; it's a community-focused initiative aimed 
 
 ## Table of Contents
 
-- [Demo](#demo)
+- [Demo](#Demo)
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
@@ -24,7 +24,7 @@ RedDrop is more than just a platform; it's a community-focused initiative aimed 
 
 ## Demo
 
-[Watch the Demo Video](URL_TO_VIDEO)
+[Watch the Demo Video]()
 
 ## Technologies Used
 
