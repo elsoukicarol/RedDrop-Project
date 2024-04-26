@@ -1,8 +1,6 @@
 ## Project Overview: RedDrop
 
-RedDrop is a transformative platform dedicated to enhancing the efficiency and accessibility of blood donations. Our project serves as a critical bridge connecting individuals in urgent need of blood with generous donors willing to help. Through RedDrop, users can create posts to request blood donations or respond to others' requests.
-
-Additionally, RedDrop supports the broader mission of health and humanitarian aid by facilitating monetary donations to charities. This is achieved through seamless integration with Stripe, allowing users to make secure and hassle-free financial contributions using credit cards.
+RedDrop is a transformative platform dedicated to enhancing the efficiency and accessibility of blood donations. My project serves as a critical bridge connecting individuals in urgent need of blood with generous donors willing to help. Through RedDrop, users can create posts to request blood donations or respond to others' requests. Also, RedDrop supports monetary donations to charities. This is achieved through seamless integration with Stripe, allowing users to make secure financial contributions using credit cards.
 
 The platform's main features include:
 
