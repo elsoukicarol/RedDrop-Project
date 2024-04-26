@@ -26,7 +26,7 @@ RedDrop is more than just a platform; it's a community-focused initiative aimed 
 
 Click on the image to watch the demo video
 
-![Alt text](client/public/home.png)(https://drive.google.com/file/d/1RSySxYSAyjxVgR1LnioCcXdj9AResnzN/view?usp=sharing)
+[![Alt text](client/public/home.png)](https://drive.google.com/file/d/1RSySxYSAyjxVgR1LnioCcXdj9AResnzN/view?usp=sharing)
 
 ## Technologies Used
 
