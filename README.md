@@ -1,8 +1,6 @@
 ## Project Overview: RedDrop
 
-RedDrop is a transformative platform dedicated to enhancing the efficiency and accessibility of blood donations. Our project serves as a critical bridge connecting individuals in urgent need of blood with generous donors willing to help. Through RedDrop, users can create posts to request blood donations or respond to others' requests.
-
-Additionally, RedDrop supports the broader mission of health and humanitarian aid by facilitating monetary donations to charities. This is achieved through seamless integration with Stripe, allowing users to make secure and hassle-free financial contributions using credit cards.
+RedDrop is a transformative platform dedicated to enhancing the efficiency and accessibility of blood donations. My project serves as a critical bridge connecting individuals in urgent need of blood with generous donors willing to help. Through RedDrop, users can create posts to request blood donations or respond to others' requests. Also, RedDrop supports monetary donations to charities. This is achieved through seamless integration with Stripe, allowing users to make secure financial contributions using credit cards.
 
 The platform's main features include:
 
@@ -10,8 +8,6 @@ The platform's main features include:
 - **Charitable Donations**: RedDrop provides an avenue for users to contribute financially to charities directly through the platform, leveraging Stripe's robust payment processing capabilities.
 - **User-Friendly Interface**: Built with React, RedDrop offers an intuitive and responsive user experience, ensuring that users can navigate the platform easily and efficiently.
 - **Secure Transactions**: With JWT for authentication and Bcrypt for secure password handling, RedDrop ensures that all user interactions and transactions are secure.
-
-RedDrop is more than just a platform; it's a community-focused initiative aimed at saving lives and supporting health-related charities. We are committed to providing a reliable and effective service that upholds the values of compassion, safety, and community assistance.
 
 ## Table of Contents
 
@@ -353,3 +349,6 @@ Endpoints may require authentication using JWT as specified in the API documenta
 
 ## Error Handling
 Errors are handled through standard HTTP status codes along with JSON responses specifying the issue.
+
+## Contributors
+Carol El Souki
