@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { PostModule } from './post/post.module';
 import { CharitiesModule } from './charities/charities.module';
-import { FaqModule } from './faq/faq.module';
+// import { FaqModule } from './faq/faq.module';
 import { FinancialTransactionsModule } from './financial-transactions/financial-transactions.module';
 import { StripeModule } from './stripe/stripe.module';
 
@@ -31,7 +31,7 @@ import { StripeModule } from './stripe/stripe.module';
     UserModule,
     PostModule,
     CharitiesModule,
-    FaqModule,
+    // FaqModule,
     FinancialTransactionsModule,
     StripeModule,
   ],
