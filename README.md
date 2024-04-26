@@ -350,5 +350,5 @@ Endpoints may require authentication using JWT as specified in the API documenta
 ## Error Handling
 Errors are handled through standard HTTP status codes along with JSON responses specifying the issue.
 
-# Developer
+## Contributors
 Carol El Souki
