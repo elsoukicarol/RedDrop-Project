@@ -11,8 +11,6 @@ The platform's main features include:
 - **User-Friendly Interface**: Built with React, RedDrop offers an intuitive and responsive user experience, ensuring that users can navigate the platform easily and efficiently.
 - **Secure Transactions**: With JWT for authentication and Bcrypt for secure password handling, RedDrop ensures that all user interactions and transactions are secure.
 
-RedDrop is more than just a platform; it's a community-focused initiative aimed at saving lives and supporting health-related charities. We are committed to providing a reliable and effective service that upholds the values of compassion, safety, and community assistance.
-
 ## Table of Contents
 
 - [Demo](#Demo)
