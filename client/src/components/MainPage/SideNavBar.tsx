@@ -96,13 +96,21 @@ const Sidebar: React.FC = () => {
             <ListItemIcon>
               <LocalHospitalIcon />
             </ListItemIcon>
-            <ListItemText primary="Blood Supply" />
+            <ListItemText primary="Assistance" />
             {openBloodSupply ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={openBloodSupply} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
+            <Link
+                  to="/chat"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
               <ListItem button sx={{ pl: 4 }}>
-                <ListItemText primary="Dashboard" />
+                <ListItemText primary="Virtual Assitant" />
+              </ListItem>
+              </Link>
+              <ListItem button sx={{ pl: 4 }}>
+                <ListItemText primary="Contact Us" />
               </ListItem>
             </List>
           </Collapse>

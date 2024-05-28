@@ -11,6 +11,9 @@ import { CharitiesModule } from './charities/charities.module';
 // import { FaqModule } from './faq/faq.module';
 import { FinancialTransactionsModule } from './financial-transactions/financial-transactions.module';
 import { StripeModule } from './stripe/stripe.module';
+import { ChatService } from './chat/chat.service';
+import { ChatController } from './chat/chat.controller';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -34,6 +37,7 @@ import { StripeModule } from './stripe/stripe.module';
     // FaqModule,
     FinancialTransactionsModule,
     StripeModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

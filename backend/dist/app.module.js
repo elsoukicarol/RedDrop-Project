@@ -18,6 +18,7 @@ const post_module_1 = require("./post/post.module");
 const charities_module_1 = require("./charities/charities.module");
 const financial_transactions_module_1 = require("./financial-transactions/financial-transactions.module");
 const stripe_module_1 = require("./stripe/stripe.module");
+const chat_module_1 = require("./chat/chat.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -43,6 +44,7 @@ exports.AppModule = AppModule = __decorate([
             charities_module_1.CharitiesModule,
             financial_transactions_module_1.FinancialTransactionsModule,
             stripe_module_1.StripeModule,
+            chat_module_1.ChatModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

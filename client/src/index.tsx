@@ -18,6 +18,8 @@ import DonorPage from './components/Donor/DonorFullPage';
 import Form from './components/Form'
 import CharityPage from './components/Charities/CharitiesPage';
 import StripeContainer from './components/Stripe/CheckOut';
+import Chat from './components/Chat/chatcomponent';
+import ChatPage from './components/Chat/chatpage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -38,6 +40,7 @@ root.render(
         <Route path="/form" element={<Form />}/>
         <Route path="/Non-ProfitOrganizations" element={<CharityPage />}/>
         <Route path="/donate" element={<StripeContainer />}/>
+        <Route path="/chat" element={<ChatPage />}/>
       </Routes>
     </Router>
   </React.StrictMode>
