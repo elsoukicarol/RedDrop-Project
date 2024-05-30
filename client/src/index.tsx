@@ -20,6 +20,8 @@ import CharityPage from './components/Charities/CharitiesPage';
 import StripeContainer from './components/Stripe/CheckOut';
 import Chat from './components/Chat/chatcomponent';
 import ChatPage from './components/Chat/chatpage';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,6 +29,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <Router> {/* Use Router alias as imported */}
       <Routes> {/* Wrap Route components inside Routes */}
         <Route path="/" element={<LandingPage />} />
@@ -43,6 +46,7 @@ root.render(
         <Route path="/chat" element={<ChatPage />}/>
       </Routes>
     </Router>
+    </Provider>
   </React.StrictMode>
 );
 reportWebVitals();

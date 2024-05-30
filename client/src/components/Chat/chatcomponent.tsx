@@ -1,14 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
-
-interface ChatMessage {
-  role: 'user' | 'bot';
-  content: string;
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { addMessage } from '../../store/Slices/ChatSlice';
 
 const Chat: React.FC = () => {
   const [userInput, setUserInput] = useState<string>('');
-  const [chatResponses, setChatResponses] = useState<ChatMessage[]>([]);
+  const dispatch = useDispatch();
+  const chatResponses = useSelector((state: RootState) => state.chat.messages);
 
   const sendMessage = async () => {
     if (userInput.trim() === '') return;
@@ -17,11 +16,8 @@ const Chat: React.FC = () => {
       console.log('Sending message:', userInput);
       const response = await axios.post<{ response: string }>('/api/chat', { query: userInput });
       console.log('Received response:', response.data);
-      setChatResponses([
-        ...chatResponses,
-        { role: 'user', content: userInput },
-        { role: 'bot', content: response.data.response }
-      ]);
+      dispatch(addMessage({ role: 'user', content: userInput }));
+      dispatch(addMessage({ role: 'bot', content: response.data.response }));
       setUserInput('');
     } catch (error) {
       console.error('Error sending message:', error);
