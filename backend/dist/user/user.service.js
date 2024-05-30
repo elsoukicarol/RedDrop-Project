@@ -45,14 +45,14 @@ let UserService = class UserService {
         await transporter.sendMail(mailOptions);
     }
     async create(createUserDto) {
-        console.log("here");
-        const otp = randomstring.generate({ length: 5, charset: "numeric" });
+        console.log('here');
+        const otp = randomstring.generate({ length: 5, charset: 'numeric' });
         const userExists = await this.usersRepository.findOneBy({
             email: createUserDto.email,
         });
         if (userExists) {
             console.log(userExists);
-            throw new common_1.UnauthorizedException("User does not exist.");
+            throw new common_1.UnauthorizedException('User already exists.');
         }
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
         const user = this.usersRepository.create({

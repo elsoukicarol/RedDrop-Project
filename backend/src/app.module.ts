@@ -14,6 +14,9 @@ import { StripeModule } from './stripe/stripe.module';
 import { ChatService } from './chat/chat.service';
 import { ChatController } from './chat/chat.controller';
 import { ChatModule } from './chat/chat.module';
+import { HttpModule } from '@nestjs/axios';
+import { RecaptchaService } from './recaptcha/recaptchaservice';
+import { RecaptchaModule } from './recaptcha/recaptcha.module';
 
 @Module({
   imports: [
@@ -38,6 +41,7 @@ import { ChatModule } from './chat/chat.module';
     FinancialTransactionsModule,
     StripeModule,
     ChatModule,
+    RecaptchaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

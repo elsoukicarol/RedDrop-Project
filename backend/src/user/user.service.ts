@@ -42,16 +42,15 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    console.log("here");
-    const otp = randomstring.generate({ length: 5, charset: "numeric" });
+    console.log('here');
+    const otp = randomstring.generate({ length: 5, charset: 'numeric' });
 
-    // Create user with OTP (without saving yet)
     const userExists = await this.usersRepository.findOneBy({
       email: createUserDto.email,
     });
     if (userExists) {
       console.log(userExists);
-      throw new UnauthorizedException("User does not exist.");
+      throw new UnauthorizedException('User already exists.');
     }
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
@@ -62,10 +61,8 @@ export class UserService {
       isActivated: false,
     });
 
-    // Save the user with the OTP
     await this.usersRepository.save(user);
 
-    // Send OTP email
     await this.sendOtpEmail(createUserDto.email, otp);
 
     const payload = { sub: user.id };
@@ -73,7 +70,6 @@ export class UserService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
-
   async update(updateUserDto: UpdateUserDto, userId: number): Promise<User> {
   
     const user = await this.usersRepository.findOneBy({ id: userId });
@@ -91,20 +87,20 @@ export class UserService {
   /// checkear
   async activateUser(id: number, otp: string): Promise<boolean> {
     const user = await this.usersRepository.findOne({ where: { id: id } });
-
+  
     if (!user || user.otp !== otp) {
       // Incorrect OTP or user not found
       return false;
     }
-
+  
     console.log(user);
     user.isActivated = true;
-    /// Clear OTP after activation
+    // Clear OTP after activation
     user.otp = null;
     await this.usersRepository.save(user);
-
+  
     return true;
-  }
+  }  
 
   decodeToken(token: string) {
     try {

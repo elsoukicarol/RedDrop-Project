@@ -5,7 +5,7 @@ import {
   IsNotEmpty,
   IsString,
   IsStrongPassword,
-} from 'class-validator';
+} from "class-validator";
 
 /// Using validators
 export class CreateUserDto {
@@ -20,4 +20,8 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   last_name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  recaptchaToken: string;
 }

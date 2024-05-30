@@ -18,25 +18,34 @@ const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const passport_1 = require("@nestjs/passport");
+const recaptchaservice_1 = require("../recaptcha/recaptchaservice");
+const login_dto_1 = require("./dto/login.dto");
 let UserController = class UserController {
-    constructor(userService) {
+    constructor(userService, recaptchaService) {
         this.userService = userService;
+        this.recaptchaService = recaptchaService;
     }
-    async createUser(createUserDto, response) {
+    async createUser(createUserDto) {
+        const { recaptchaToken } = createUserDto;
+        const isHuman = await this.recaptchaService.verifyRecaptchaToken(recaptchaToken);
+        if (!isHuman) {
+            throw new common_1.BadRequestException("Failed reCAPTCHA verification");
+        }
         try {
             const user = await this.userService.create(createUserDto);
-            if (user) {
-                response.status(200).json(user);
-            }
-            else {
-                response.status(300).json({
-                    message: "User already exists",
-                });
-            }
+            return {
+                status: 200,
+                user,
+            };
         }
         catch (error) {
-            console.log(error);
-            response.status(400).json({ message: "Failed to create user." });
+            if (error instanceof common_1.UnauthorizedException) {
+                throw new common_1.ConflictException("User already exists.");
+            }
+            else {
+                console.error(error);
+                throw new common_1.InternalServerErrorException("Failed to create user.");
+            }
         }
     }
     async activateUser(body) {
@@ -47,11 +56,19 @@ let UserController = class UserController {
         }
         return true;
     }
-    async login(body, response) {
+    async login(loginDto, response) {
+        const { recaptchaToken, ...loginData } = loginDto;
+        const isHuman = await this.recaptchaService.verifyRecaptchaToken(recaptchaToken);
+        if (!isHuman) {
+            throw new common_1.BadRequestException("Failed reCAPTCHA verification");
+        }
         try {
-            const user = await this.userService.login(body.email, body.password);
+            const user = await this.userService.login(loginData.email, loginData.password);
             if (user != null) {
                 response.status(200).json(user);
+            }
+            else {
+                throw new common_1.UnauthorizedException("Invalid credentials");
             }
         }
         catch (error) {
@@ -67,19 +84,19 @@ let UserController = class UserController {
         }
         catch (error) {
             console.log(error);
-            return error.message;
+            throw new common_1.BadRequestException(error.message);
         }
     }
     async updateUser(userId, updateUserDto, request) {
         try {
             if (request.user.userId !== userId) {
-                throw new Error('Unauthorized to update this user');
+                throw new common_1.UnauthorizedException("Unauthorized to update this user");
             }
             return await this.userService.update(updateUserDto, userId);
         }
         catch (error) {
             console.log(error);
-            throw error;
+            throw new common_1.BadRequestException(error.message);
         }
     }
     create(createUserDto) {
@@ -99,9 +116,8 @@ exports.UserController = UserController;
 __decorate([
     (0, common_1.Post)("signup"),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
 __decorate([
@@ -116,7 +132,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [login_dto_1.LoginDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "login", null);
 __decorate([
@@ -128,9 +144,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAllDonors", null);
 __decorate([
-    (0, common_1.Put)(':id'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Put)(":id"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -166,6 +182,7 @@ __decorate([
 ], UserController.prototype, "remove", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("user"),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        recaptchaservice_1.RecaptchaService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map
