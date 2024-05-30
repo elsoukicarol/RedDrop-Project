@@ -22,7 +22,7 @@ The platform's main features include:
 
 Click on the image to watch the demo video
 
-[![Alt text](client/public/home.png)]([https://drive.google.com/file/d/1RSySxYSAyjxVgR1LnioCcXdj9AResnzN/view?usp=sharing](https://drive.google.com/file/d/17AiWRsw_VU3Z3K_qbCt8_gfDKEKko8-D/view?usp=sharing))
+[![Alt text](client/public/home.png)](https://drive.google.com/file/d/17AiWRsw_VU3Z3K_qbCt8_gfDKEKko8-D/view?usp=sharing)
 
 ## Technologies Used
 
